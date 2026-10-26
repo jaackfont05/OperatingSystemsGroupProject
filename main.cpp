@@ -8,6 +8,9 @@ using namespace std;
 
 
 
+output run(const config& config){
+    //TODO
+}
 
 
 void getconfig(config& config, istream& pin) {
@@ -38,15 +41,10 @@ void printconfig(const config& config, ostream& pout) {
 
 int main() {
     config input;
-
-
+    output result;
     getconfig(input, cin);
     printconfig(input, cout);
-
-
-
-
-
+    result = run(input);
 
     return 0;
 }
