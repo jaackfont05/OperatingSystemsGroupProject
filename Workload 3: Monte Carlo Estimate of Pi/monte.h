@@ -1,11 +1,7 @@
- #ifndef MONTE_H
- #define MONTE_H
-#include <iostream>
-#include <string>
-#include "constants.h"
+#ifndef MONTE_H
+#define MONTE_H
+#include "../constants.h"
 using namespace std;
-
-
 
 /*
     The config Montecarlo will recieve from the main 
@@ -23,19 +19,17 @@ using namespace std;
 */
 class MonteCarlo {
 public:
-    MonteCarlo(config config);
+    MonteCarlo(const config& config);
     config config;
-    double estimatePi();
+    output run();
+
 private:
 
-    
     double sequentialEstimate();
     double threadEstimate();
     double MPIestimate();
     double OPENMPestimate();
-
 };
 
 
-
- #endif // MONTE_H
+#endif // MONTE_H
