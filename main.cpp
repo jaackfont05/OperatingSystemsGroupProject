@@ -7,9 +7,37 @@
 using namespace std;
 
 
+/*
+struct output{
+    string workload;
+    string mode;
+    int size;
+    int workers;
+    string schedule;
+    double result;
+    double checksum;
+    double avg_time_ms;
+    double best_time_ms;
+    double worst_time_ms;
+    int repetitions;
+    bool valid;
 
-output run(const config& config){
-    //TODO
+};*/
+output run(const config& config){ 
+    output result;
+    result.workload = config.workload;
+    result.mode = config.mode;
+    result.size = config.size;
+    if (config.mode == MPI) {
+        result.workers = config.processes;
+    } else {
+        result.workers = config.threads;
+    }
+    result.schedule = config.schedule;
+    result.repetitions = config.repetitions;
+
+
+    return result;
 }
 
 
