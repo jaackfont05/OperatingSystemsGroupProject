@@ -3,7 +3,6 @@
 #include "Workload 3: Monte Carlo Estimate of Pi/monte.h"
 #include <iostream>
 #include <string>
-#include "constants.h"
 using namespace std;
 
 
