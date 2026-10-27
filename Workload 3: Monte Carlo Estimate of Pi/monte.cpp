@@ -1,18 +1,19 @@
 #include "monte.h"
 #include <iostream>
-#include "constants.h"
+#include <chrono>
 
-MonteCarlo::MonteCarlo(::config config) {
-    this->config = config;
+using namespace std;
+
+MonteCarlo::MonteCarlo(const ::config& config_value) {
+    this->config = config_value;
 }
-
 
 
 double MonteCarlo::sequentialEstimate(){
     return 0.0;
 }
 double MonteCarlo::threadEstimate(){
-    return 0.0; 
+    return 0.0;
 }
 double MonteCarlo::MPIestimate(){
     return 0.0;
@@ -21,15 +22,36 @@ double MonteCarlo::OPENMPestimate(){
     return 0.0;
 }
 
-double MonteCarlo::estimatePi() {
-    if (config.mode == SEQUENTIAL) {
-        return sequentialEstimate();
-    } else if (config.mode == THREAD) {
-        return threadEstimate();
-    } else if (config.mode == MPI) {
-        return MPIestimate();
-    } else if (config.mode == OPENMP) {
-        return OPENMPestimate();
+
+output MonteCarlo::run() {
+    output result;
+    double total_time = 0.0;
+
+    for (int rep = 0; rep < config.repetitions; rep++) {
+        auto start = chrono::steady_clock::now();
+        if (config.mode == SEQUENTIAL) {
+            result.result = sequentialEstimate();
+        } else if (config.mode == STD_THREAD) {
+            result.result = threadEstimate();
+        } else if (config.mode == MPI) {
+            result.result = MPIestimate();
+        } else if (config.mode == OPENMP) {
+            result.result = OPENMPestimate();
+        }
+        auto end = chrono::steady_clock::now();
+
+        double ms = chrono::duration<double, milli>(end - start).count();
+        total_time += ms;
+        if (rep == 0 || ms < result.best_time_ms) {
+            result.best_time_ms = ms;
+        }
+        if (rep == 0 || ms > result.worst_time_ms) {
+            result.worst_time_ms = ms;
+        }
     }
 
+    if (config.repetitions > 0) {
+        result.avg_time_ms = total_time / config.repetitions;
+    }
+    return result;
 }

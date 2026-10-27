@@ -23,8 +23,12 @@ struct output{
     bool valid;
 
 };*/
-output run(const config& config){ 
+output run(const config& config){
     output result;
+    if (config.workload == PI) {
+        MonteCarlo monte(config);
+        result = monte.run();
+    }
     result.workload = config.workload;
     result.mode = config.mode;
     result.size = config.size;
@@ -41,29 +45,6 @@ output run(const config& config){
 }
 
 
-void getconfig(config& config, istream& pin) {
-    pin >> config.workload;
-    pin >> config.mode;
-    pin >> config.size;
-    pin >> config.threads;
-    pin >> config.processes;
-    pin >> config.schedule;
-    pin >> config.chunk;
-    pin >> config.seed;
-    pin >> config.repetitions;   
-}
-
-void printconfig(const config& config, ostream& pout) {
-    pout << "WORKLOAD: " << config.workload << endl;
-    pout << "MODE: " << config.mode << endl;
-    pout << "SIZE: " << config.size << endl;
-    pout << "THREADS: " << config.threads << endl;
-    pout << "PROCESSES: " << config.processes << endl;
-    pout << "SCHEDULE: " << config.schedule << endl;
-    pout << "CHUNK: " << config.chunk << endl;
-    pout << "SEED: " << config.seed << endl;
-    pout << "REPETITIONS: " << config.repetitions << endl;
-}
 
 
 
@@ -73,6 +54,7 @@ int main() {
     getconfig(input, cin);
     printconfig(input, cout);
     result = run(input);
+    printoutput(result, cout);
 
     return 0;
 }
