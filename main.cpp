@@ -24,7 +24,13 @@ struct output{
 };*/
 output run(const config& config){
     output result;
-    if (config.workload == PI) {
+    if (config.workload == LOOP) {
+        Loop loop(config);
+        result = loop.run();
+    } else if (config.workload == DOT) {
+        DotProduct dot(config);
+        result = dot.run();
+    } else if (config.workload == PI) {
         MonteCarlo monte(config);
         result = monte.run();
     }

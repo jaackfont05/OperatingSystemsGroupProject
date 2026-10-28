@@ -15,5 +15,6 @@ add_executable(OperatingSystemsGroupProject
         "Workload 2: Dot Product with Reduction/dot.h"
         "Workload 3: Monte Carlo Estimate of Pi/monte.cpp"
         "Workload 3: Monte Carlo Estimate of Pi/monte.h"
+        constants.cpp
         constants.h
         main.cpp)
