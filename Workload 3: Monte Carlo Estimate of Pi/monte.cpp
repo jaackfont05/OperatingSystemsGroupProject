@@ -1,6 +1,7 @@
 #include "monte.h"
 #include <iostream>
 #include <chrono>
+#include <cstdlib>
 
 using namespace std;
 
@@ -8,10 +9,19 @@ MonteCarlo::MonteCarlo(const ::config& config_value) {
     this->config = config_value;
 }
 
-
 double MonteCarlo::sequentialEstimate(){
-    return 0.0;
+    srand((unsigned int)config.seed);
+    unsigned int inside = 0;
+    for (unsigned int i = 0; i < config.size; i++) {
+        double x = (double)rand() / RAND_MAX;
+        double y = (double)rand() / RAND_MAX;
+        if (x * x + y * y <= 1.0) {
+            inside++;
+        }
+    }
+    return 4.0 * inside / config.size;
 }
+
 double MonteCarlo::threadEstimate(){
     return 0.0;
 }
