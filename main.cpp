@@ -1,6 +1,6 @@
-#include "Workload 1: Independent Loop Computation/loop.h"
-#include "Workload 2: Dot Product with Reduction/dot.h"
-#include "Workload 3: Monte Carlo Estimate of Pi/monte.h"
+#include "Workload 1 - Independent Loop Computation/loop.h"
+#include "Workload 2 - Dot Product with Reduction/dot.h"
+#include "Workload 3 - Monte Carlo Estimate of Pi/monte.h"
 #include <iostream>
 #include <string>
 using namespace std;
@@ -28,7 +28,7 @@ output run(const config& config){
         Loop loop(config);
         result = loop.run();
     } else if (config.workload == DOT) {
-        DotProduct dot(config);
+        Dot dot(config);
         result = dot.run();
     } else if (config.workload == PI) {
         MonteCarlo monte(config);
@@ -39,6 +39,8 @@ output run(const config& config){
     result.size = config.size;
     if (config.mode == MPI) {
         result.workers = config.processes;
+    } else if (config.mode == SEQUENTIAL) {
+        result.workers = 1;
     } else {
         result.workers = config.threads;
     }

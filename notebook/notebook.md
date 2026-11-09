@@ -62,7 +62,7 @@ Added the proposed class/module design diagram to the Milestone 1 design proposa
 
 - Diagram of the module design  section of Milestone 1
 
-![module design](../Milestone%201:%20Design%20Proposal%09/images/moduledesign.png)
+![module design](../Milestone%201%20-%20Design%20Proposal/images/moduledesign.png)
 
 **Milestone 1 design proposal completed
 
@@ -96,7 +96,7 @@ setup of processes varying
 
 - Diagram of the module design  section of Milestone 1
 
-![updated module design](../Milestone%201:%20Design%20Proposal%09/images/updatedmoduledesign.png)
+![updated module design](../Milestone%201%20-%20Design%20Proposal/images/updatedmoduledesign.png)
 
 
 **Workload files, shared config, and Monte Carlo skeleton
@@ -310,6 +310,56 @@ Workload 3 folder.
 **Result or outcome**
 monte carlo basic validation done.
 
+
+## DOT Sequential and OpenMP Implementation
+
+Date 11/08/2026
+Author Chase Caldwell
+Milestone 2: Sequential and Shared-Memory Baselines
+
+**What happened or what we did**
+
+Implemented the sequential and OpenMP versions of the DOT workload and tested them against each other to verify correctness and performance.
+
+**Details**
+
+- Replaced the original sequentialEstimate function, which still contained Monte Carlo Pi code, with the correct dot-product calculation.
+- Added deterministic `dotA()` and `dotB()` functions that generate the same input values based on the index and seed.
+- Implemented `OPENMPestimate()` using a parallel for loop with reduction to combine partial sums without race conditions.
+- Added STATIC, CYCLIC, and DYNAMIC scheduling support.
+- Added basic validation by comparing the OpenMP result against the sequential result.
+- Fixed the sequential worker count, which was incorrectly reporting the configured thread count instead of 1.
+- Had trouble compiling OpenMP using AppleClang on macOS. Switched to Homebrew LLVM and Ninja.
+- Fixed a compilation error caused by a missing chrono header.
+- Resolved a Git merge conflict in dot.h and merged the changes into the repository's main branch.
+
+**Testing**
+
+- Tested with SIZE 1000, THREADS 4, SEED 12345, and REPETITIONS 3.
+- Sequential and OpenMP returned 30000 with VALID: YES.
+- STATIC, CYCLIC, and DYNAMIC scheduling all returned the correct result.
+- Tested with SIZE 1000000, THREADS 4, SCHEDULE STATIC, and REPETITIONS 5.
+- OpenMP achieved approximately 3.05x speedup with four threads.
+- Parallel efficiency was approximately 76.3%.
+- OpenMP performed worse on the smaller workload because thread and scheduling overhead was significant compared to the amount of computation.
+
+**Result or outcome**
+
+Sequential DOT and OpenMP DOT are working and produce matching results. All three OpenMP scheduling methods passed the basic correctness tests. Changes were committed and merged into the fork's main branch for integration with Owen's std::thread implementation.
+## DOT Threaded Implementation
+Date 11/08/2026
+Author: Owen Chipman
+Workflow: STD_THREAD implementation for dot product.
+
+**what was accomplished:**
+integrated the threaded workflow with the existing code provided by chase.
+Created a thread worker function that accepted threads for all three workflows, branching on each schedule type.
+
+**testing:**
+tested all three schedule types with various sizes, including sizes that did not divide easily by chunk size. all results came back valid.
+
+**result:** the dot product workflow now has 2 of the three required workflows functional and all changes are integrated into the overarching codebase.
+
 **LOOP std::thread design
 
 Date 11/5/2026
@@ -353,3 +403,4 @@ Expected the same checksum and VALID YES for all.
 -DYNAMIC  threads=3  checksum=499896499668  avg_ms=0.392225  valid=YES
 -DYNAMIC  threads=4  checksum=499896499668  avg_ms=0.293876  valid=YES
 -DYNAMIC  threads=7  checksum=499896499668  avg_ms=0.304128  valid=YES
+
