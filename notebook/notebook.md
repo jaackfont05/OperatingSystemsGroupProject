@@ -404,3 +404,43 @@ Expected the same checksum and VALID YES for all.
 -DYNAMIC  threads=4  checksum=499896499668  avg_ms=0.293876  valid=YES
 -DYNAMIC  threads=7  checksum=499896499668  avg_ms=0.304128  valid=YES
 
+
+
+SPLIT UP the rest of the milestones
+
+Milestone 3: MPI and Trace Mode
+Submit a version that supports:
+MPI initialization and finalization :ALL
+MPI configuration broadcast and rank-level work assignment :ALL
+MPI result reduction for all three workloads :ALL
+Trace mode for small inputs :ALL
+Validation against the sequential version :ALL
+
+Milestone 4: Synchronization, Race Demonstration, and Empirical Study Draft
+Submit a version that supports:
+Controlled race-condition demonstration :CHASE
+Corrected synchronization strategy : ALL
+Repeated timing trials : DAKOTA
+Initial speedup and efficiency tables :ALL
+Initial discussion of timing results  :ALL 
+At least one case where parallel execution is slower than sequential execution :ALL
+
+Milestone 5: Final Project
+Submit the complete project with:
+Sequential implementations DONE
+OpenMP implementations DONE
+C++11 std::thread implementations DONE
+MPI implementations DONE 
+Static, cyclic, and dynamic scheduling in each required parallel model ALL
+Correct synchronization ALL
+Trace mode ALL
+Race-condition demonstration ALL
+Validation system ALL
+Timing system DAKOTA
+Team-specific configuration ALL
+Documentation ALL
+Empirical study  JOnah owen chase
+Amdahl's Law analysis Dakota jack
+Development notebook ALL
+Contribution statement ALL
+Demonstration materials ALL
